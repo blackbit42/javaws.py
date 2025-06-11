@@ -25,6 +25,7 @@ import requests
 # _JAVA_OPTIONS=-Dawt.useSystemAAFontSettings=lcd"
 
 def signal_handler(signum, frame):
+    del frame
     signame = signal.Signals(signum).name
     print()
     print(f'Signal handler called with signal {signal.strsignal(signum)} / {signame}({signum})')
@@ -34,11 +35,11 @@ def signal_handler(signum, frame):
     sys.exit(1)
 
 
-def download_file(dest_dir, url):
-    file_name = url.split('/')[-1]
-    r = requests.get(url)
-    with open(os.path.join(dest_dir, file_name), 'wb') as f:
-        for chunk in r.iter_content(chunk_size=512 * 1024):
+def download_file(dest_dir, d_url):
+    d_file_name = d_url.split('/')[-1]
+    d_r = requests.get(url, timeout=10)
+    with open(os.path.join(dest_dir, d_file_name), 'wb') as f:
+        for chunk in d_r.iter_content(chunk_size=512 * 1024):
             if chunk:
                 f.write(chunk)
 
